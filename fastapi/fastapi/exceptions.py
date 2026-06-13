@@ -4,7 +4,13 @@ from typing import Annotated, Any, TypedDict
 from annotated_doc import Doc
 from pydantic import BaseModel, create_model
 from starlette.exceptions import HTTPException as StarletteHTTPException
-from starlette.exceptions import WebSocketException as StarletteWebSocketException
+from fastapi.types import IncEx
+
+
+class ConcurrencyError(Exception):
+    def __init__(self, exceptions: list[Exception]) -> None:
+        self.exceptions = exceptions
+        super().__init__(*exceptions)
 
 
 class EndpointContext(TypedDict, total=False):
